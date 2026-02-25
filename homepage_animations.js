@@ -249,6 +249,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
         onComplete: () => {
           if (textAnimated) return;
           textAnimated = true;
+          gsap.fromTo(".home_about-content", { scale: 0.8 }, { scale: 1, duration: 5, ease: "none" });
+          gsap.set(".home_about-content", { opacity: 1 });
           gsap.set(".home_about-text", { autoAlpha: 1 });
           gsap.from(split.lines, { opacity: 0,
             duration: 2,
