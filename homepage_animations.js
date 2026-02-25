@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let aboutRevealed = false;
     let aboutExiting = false;
     let aboutClipTl = null;
-    const split = new SplitText(".home_about-text", { type: "lines", mask: "lines" });
+    const split = new SplitText(".home_about-text", { type: "words", mask: "lines" });
 
     /**
      * Plays the about section reveal animation
