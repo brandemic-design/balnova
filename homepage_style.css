@@ -1,0 +1,86 @@
+
+.home_about-left {
+  --grad-angle: 45deg;
+  background-image: linear-gradient(var(--grad-angle), #59adc6, #fff 69%);
+}
+
+.section_home-service {
+  pointer-events: none;
+}
+
+.home_service-text,
+.service_button-wrapper {
+  pointer-events: auto;
+}
+
+.home_about-left {
+    z-index: 0 !important; 
+}
+
+.home_service-text:hover{
+    color: #2b5460;
+    cursor: pointer;
+}
+
+html{
+  scrollbar-width: none;
+}
+
+
+
+ .hero-letter {
+   opacity: 0;
+   transform: translateY(20px);
+ }
+
+
+ .hero-letter.animate {
+   animation: heroLetterUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+ }
+
+
+ .hl1.animate { animation-delay: 0s; }
+ .hl2.animate { animation-delay: 0.1s; }
+ .hl3.animate { animation-delay: 0.2s; }
+ .hl4.animate { animation-delay: 0.3s; }
+ .hl5.animate { animation-delay: 0.4s; }
+ .hl6.animate { animation-delay: 0.5s; }
+ .hl7.animate { animation-delay: 0.6s; }
+
+
+ @keyframes heroLetterUp {
+   to {
+     opacity: 1;
+     transform: translateY(0);
+   }
+ }
+
+
+
+ .hero-word {
+   display: inline-block;
+   opacity: 0;
+   transform: translateY(15px);
+ }
+
+
+ .hero-word.animate {
+   animation: heroWordUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+ }
+
+
+ .hw1.animate { animation-delay: 0s; }
+ .hw2.animate { animation-delay: 0.1s; }
+ .hw3.animate { animation-delay: 0.15s; }
+ .hw4.animate { animation-delay: 0.25s; }
+ .hw5.animate { animation-delay: 0.35s; }
+
+
+ @keyframes heroWordUp {
+   to {
+     opacity: 1;
+     transform: translateY(0);
+   }
+ }
+
+
