@@ -44,10 +44,10 @@ function playAboutReveal() {
       textAnimated = true;
       gsap.set(".home_about-text", { autoAlpha: 1 });
       gsap.from(split.lines, { 
-        y: "100%", 
-        duration: 0.8, 
-        ease: "power3", 
-        stagger: 0.25 
+        opacity: 0,
+        duration: 2,
+        ease: "sine.out",
+        stagger: 0.1,
       });
       gsap.to(".about_image-wrapper", { 
         y: "0%", 
