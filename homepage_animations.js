@@ -252,7 +252,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
           gsap.fromTo(".home_about-content", { scale: 0.8 }, { scale: 1, duration: 4, ease: "none" });
           gsap.set(".home_about-content", { opacity: 1 });
           gsap.set(".home_about-text", { autoAlpha: 1 });
-          gsap.from(split.lines, { opacity: 0,
+          gsap.from(split.words, { opacity: 0,
             duration: 2,
             ease: "sine.out",
             stagger: 0.1, });
