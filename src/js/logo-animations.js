@@ -29,7 +29,7 @@ function initLogoAnimations() {
         logoAnimating = true;
         const state = Flip.getState(logoSvg);
         gsap.to(mainLogo, {
-          scaleX: 0,
+          opacity: 0,
           width: 0,
           duration: 1,
           ease: "power3.out",
@@ -53,7 +53,7 @@ function initLogoAnimations() {
         logoAnimating = true;
         const state = Flip.getState(logoSvg);
         gsap.to(mainLogo, {
-          scaleX: 1,
+          opacity: 1,
           width: "auto",
           duration: 1,
           ease: "power3.out",
