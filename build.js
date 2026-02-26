@@ -64,7 +64,23 @@ function build() {
   // Add initHeroAnimations code inline (without the function wrapper)
   if (initHeroMatch) {
     output += '// Initialize hero animations on page load\n';
-    output += initHeroMatch[1].trim() + '\n\n';
+    output += '// Wait for DOM to be ready\n';
+    output += '(function initHeroOnLoad() {\n';
+    output += '  function initHeroAnimations() {\n';
+    // Indent the function body
+    let heroBody = initHeroMatch[1].trim();
+    heroBody = heroBody.split('\n').map(line => '    ' + line).join('\n');
+    output += heroBody;
+    output += '\n  }\n';
+    output += '  \n';
+    output += '  if (document.readyState === \'loading\') {\n';
+    output += '    document.addEventListener(\'DOMContentLoaded\', function() {\n';
+    output += '      setTimeout(initHeroAnimations, 100);\n';
+    output += '    });\n';
+    output += '  } else {\n';
+    output += '    setTimeout(initHeroAnimations, 100);\n';
+    output += '  }\n';
+    output += '})();\n\n';
   }
   
   // ===== RIPPLE EFFECT =====
@@ -117,6 +133,9 @@ function build() {
   output += '// MAIN GSAP ANIMATIONS SETUP\n';
   output += '// ============================================================================\n\n';
   
+  output += '// Add startup message\n';
+  output += 'console.log(\'Balnova Animations: Script loaded, waiting for DOM...\');\n\n';
+  
   output += '// Function to check if GSAP and plugins are loaded\n';
   output += 'function checkGSAPDependencies() {\n';
   output += '  if (typeof gsap === \'undefined\') {\n';
@@ -150,17 +169,30 @@ function build() {
   output += '}\n\n';
   
   output += 'document.addEventListener("DOMContentLoaded", (event) => {\n';
-  output += '  document.fonts.ready.then(() => {\n\n';
+  output += '  console.log(\'Balnova Animations: DOM loaded, waiting for fonts...\');\n';
+  output += '  \n';
+  output += '  document.fonts.ready.then(() => {\n';
+  output += '    console.log(\'Balnova Animations: Fonts ready, initializing...\');\n\n';
   output += '    // Check if GSAP and plugins are loaded\n';
   output += '    if (!checkGSAPDependencies()) {\n';
   output += '      console.error(\'Balnova Animations: Required dependencies not loaded. Animations will not work.\');\n';
+  output += '      console.error(\'Balnova Animations: Please include GSAP and plugins before this script.\');\n';
   output += '      return;\n';
   output += '    }\n\n';
+  output += '    console.log(\'Balnova Animations: All dependencies loaded ✓\');\n\n';
   output += '    // Register GSAP plugins\n';
-  output += '    gsap.registerPlugin(ScrollTrigger, SplitText, Flip);\n\n';
+  output += '    gsap.registerPlugin(ScrollTrigger, SplitText, Flip);\n';
+  output += '    console.log(\'Balnova Animations: GSAP plugins registered ✓\');\n\n';
+  output += '    // Check for critical elements\n';
+  output += '    const mainWrapper = document.querySelector(".main-wrapper");\n';
+  output += '    if (!mainWrapper) {\n';
+  output += '      console.error(\'Balnova Animations: .main-wrapper element not found! This is required for scroll animations.\');\n';
+  output += '      return;\n';
+  output += '    }\n';
+  output += '    console.log(\'Balnova Animations: .main-wrapper found ✓\');\n\n';
   output += '    // Initial GSAP settings - with element existence checks\n';
-  output += '    safeGSAPSet(".section_home-about", { position: "absolute" });\n';
-  output += '    safeGSAPSet(".section_home-service", { position: "absolute" });\n';
+  output += '    const aboutSection = safeGSAPSet(".section_home-about", { position: "absolute" });\n';
+  output += '    const serviceSection = safeGSAPSet(".section_home-service", { position: "absolute" });\n';
   output += '    safeGSAPSet(".home_about-text, .service_border-text, .service_button", { autoAlpha: 0 });\n';
   output += '    safeGSAPSet(".home_service-text", { autoAlpha: 0, y: 30, filter: "blur(8px)", scale: 0.85 });\n';
   output += '    safeGSAPSet(".about_image-wrapper", { y: "100%" });\n';
@@ -170,8 +202,16 @@ function build() {
   output += '    const aboutLeft = document.querySelector(".home_about-left");\n';
   output += '    if (aboutLeft) {\n';
   output += '      gsap.set(aboutLeft, { clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)" });\n';
+  output += '      console.log(\'Balnova Animations: .home_about-left found and initialized ✓\');\n';
   output += '    } else {\n';
   output += '      console.warn(\'Balnova Animations: .home_about-left element not found\');\n';
+  output += '    }\n';
+  output += '    \n';
+  output += '    if (!aboutSection) {\n';
+  output += '      console.warn(\'Balnova Animations: .section_home-about not found - about section animations may not work\');\n';
+  output += '    }\n';
+  output += '    if (!serviceSection) {\n';
+  output += '      console.warn(\'Balnova Animations: .section_home-service not found - service section animations may not work\');\n';
   output += '    }\n\n';
   
   // ===== SERVICE SECTION =====
@@ -330,7 +370,14 @@ function build() {
   
   // Initialize ripple
   output += '    // Initialize ripple effect\n';
-  output += '    initRippleEffect();\n\n';
+  output += '    initRippleEffect();\n';
+  output += '    \n';
+  output += '    // Final initialization message\n';
+  output += '    console.log(\'Balnova Animations: Initialization complete! ✓\');\n';
+  output += '    console.log(\'Balnova Animations: If animations are not working, check:\');\n';
+  output += '    console.log(\'  1. All required HTML classes exist\');\n';
+  output += '    console.log(\'  2. CSS file is loaded\');\n';
+  output += '    console.log(\'  3. GSAP and plugins are loaded before this script\');\n\n';
   
   // Close DOMContentLoaded
   output += '  });\n';

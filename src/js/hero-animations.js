@@ -43,19 +43,31 @@ function resetHeroAnimations() {
  * Initial hero animation on page load
  */
 function initHeroAnimations() {
+  const heroLetters = document.querySelectorAll('.hero-letter');
+  const heroWords = document.querySelectorAll('.hero-word');
+  
+  if (heroLetters.length === 0 && heroWords.length === 0) {
+    console.warn('Balnova Animations: Hero elements (.hero-letter, .hero-word) not found');
+    return;
+  }
+  
+  console.log('Balnova Animations: Hero elements found, initializing animations...');
+  
   // Initial animation after page load
   setTimeout(function() {
-    document.querySelectorAll('.hero-letter').forEach(function(el) {
+    heroLetters.forEach(function(el) {
       el.classList.add('animate');
     });
     heroAnimated = true;
+    console.log('Balnova Animations: Hero letters animated ✓');
   }, 4800);
 
   // Trigger subtitle words after logo letters finish
   setTimeout(function() {
-    document.querySelectorAll('.hero-word').forEach(function(el) {
+    heroWords.forEach(function(el) {
       el.classList.add('animate');
     });
+    console.log('Balnova Animations: Hero words animated ✓');
   }, 5600);
 }
 

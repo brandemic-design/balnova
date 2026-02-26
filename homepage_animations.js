@@ -52,20 +52,45 @@ function resetHeroAnimations() {
 }
 
 // Initialize hero animations on page load
-// Initial animation after page load
-  setTimeout(function() {
-    document.querySelectorAll('.hero-letter').forEach(function(el) {
-      el.classList.add('animate');
+// Wait for DOM to be ready
+(function initHeroOnLoad() {
+  function initHeroAnimations() {
+    const heroLetters = document.querySelectorAll('.hero-letter');
+      const heroWords = document.querySelectorAll('.hero-word');
+      
+      if (heroLetters.length === 0 && heroWords.length === 0) {
+        console.warn('Balnova Animations: Hero elements (.hero-letter, .hero-word) not found');
+        return;
+      }
+      
+      console.log('Balnova Animations: Hero elements found, initializing animations...');
+      
+      // Initial animation after page load
+      setTimeout(function() {
+        heroLetters.forEach(function(el) {
+          el.classList.add('animate');
+        });
+        heroAnimated = true;
+        console.log('Balnova Animations: Hero letters animated ✓');
+      }, 4800);
+    
+      // Trigger subtitle words after logo letters finish
+      setTimeout(function() {
+        heroWords.forEach(function(el) {
+          el.classList.add('animate');
+        });
+        console.log('Balnova Animations: Hero words animated ✓');
+      }, 5600);
+  }
+  
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(initHeroAnimations, 100);
     });
-    heroAnimated = true;
-  }, 4800);
-
-  // Trigger subtitle words after logo letters finish
-  setTimeout(function() {
-    document.querySelectorAll('.hero-word').forEach(function(el) {
-      el.classList.add('animate');
-    });
-  }, 5600);
+  } else {
+    setTimeout(initHeroAnimations, 100);
+  }
+})();
 
 // ============================================================================
 // RIPPLE EFFECT INITIALIZATION
@@ -104,6 +129,9 @@ function initRippleEffect() {
 // MAIN GSAP ANIMATIONS SETUP
 // ============================================================================
 
+// Add startup message
+console.log('Balnova Animations: Script loaded, waiting for DOM...');
+
 // Function to check if GSAP and plugins are loaded
 function checkGSAPDependencies() {
   if (typeof gsap === 'undefined') {
@@ -137,20 +165,35 @@ function safeGSAPSet(selector, props) {
 }
 
 document.addEventListener("DOMContentLoaded", (event) => {
+  console.log('Balnova Animations: DOM loaded, waiting for fonts...');
+  
   document.fonts.ready.then(() => {
+    console.log('Balnova Animations: Fonts ready, initializing...');
 
     // Check if GSAP and plugins are loaded
     if (!checkGSAPDependencies()) {
       console.error('Balnova Animations: Required dependencies not loaded. Animations will not work.');
+      console.error('Balnova Animations: Please include GSAP and plugins before this script.');
       return;
     }
 
+    console.log('Balnova Animations: All dependencies loaded ✓');
+
     // Register GSAP plugins
     gsap.registerPlugin(ScrollTrigger, SplitText, Flip);
+    console.log('Balnova Animations: GSAP plugins registered ✓');
+
+    // Check for critical elements
+    const mainWrapper = document.querySelector(".main-wrapper");
+    if (!mainWrapper) {
+      console.error('Balnova Animations: .main-wrapper element not found! This is required for scroll animations.');
+      return;
+    }
+    console.log('Balnova Animations: .main-wrapper found ✓');
 
     // Initial GSAP settings - with element existence checks
-    safeGSAPSet(".section_home-about", { position: "absolute" });
-    safeGSAPSet(".section_home-service", { position: "absolute" });
+    const aboutSection = safeGSAPSet(".section_home-about", { position: "absolute" });
+    const serviceSection = safeGSAPSet(".section_home-service", { position: "absolute" });
     safeGSAPSet(".home_about-text, .service_border-text, .service_button", { autoAlpha: 0 });
     safeGSAPSet(".home_service-text", { autoAlpha: 0, y: 30, filter: "blur(8px)", scale: 0.85 });
     safeGSAPSet(".about_image-wrapper", { y: "100%" });
@@ -160,8 +203,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
     const aboutLeft = document.querySelector(".home_about-left");
     if (aboutLeft) {
       gsap.set(aboutLeft, { clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)" });
+      console.log('Balnova Animations: .home_about-left found and initialized ✓');
     } else {
       console.warn('Balnova Animations: .home_about-left element not found');
+    }
+    
+    if (!aboutSection) {
+      console.warn('Balnova Animations: .section_home-about not found - about section animations may not work');
+    }
+    if (!serviceSection) {
+      console.warn('Balnova Animations: .section_home-service not found - service section animations may not work');
     }
 
     // ========================================================================
