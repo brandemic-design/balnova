@@ -35,7 +35,7 @@ html{
 
 
  .hero-letter.animate {
-   animation: heroLetterUp 3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+   animation: heroLetterUp 5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
  }
 
 
@@ -65,15 +65,15 @@ html{
 
 
  .hero-word.animate {
-   animation: heroWordUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+   animation: heroWordUp 5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
  }
 
 
 .hw1.animate { animation-delay: 0s; }
-.hw2.animate { animation-delay: 0.1s; }
-.hw3.animate { animation-delay: 0.2s; }
-.hw4.animate { animation-delay: 0.3s; }
-.hw5.animate { animation-delay: 0.4s; }
+.hw2.animate { animation-delay: 0s; }
+.hw3.animate { animation-delay: 0s; }
+.hw4.animate { animation-delay: 0s; }
+.hw5.animate { animation-delay: 0s; }
 
 
  @keyframes heroWordUp {
