@@ -480,7 +480,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             ease: "power3", 
             stagger: 0.25,
             onComplete: () => {
-              gsap.to(".about_design-wrapper", { x: "0%", duration: 0.8 });
+              gsap.to(".about_design-wrapper", { x: "0%", duration: 0.8, ease: "power1.out" });
               }
           });
           gsap.set(".home_about-left", { 
