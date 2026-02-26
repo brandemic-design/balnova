@@ -534,7 +534,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // ========================================================================
     // LOGO ANIMATIONS
     // ========================================================================
-
+    
+      // State for logo flip animation
+      let logoFlipped = false;
+      let logoAnimating = false;
     
       const logoLink = document.querySelector(".header_logo-link");
       const mainLogo = document.querySelector(".main_logo");
