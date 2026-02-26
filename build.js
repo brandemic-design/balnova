@@ -301,18 +301,27 @@ function build() {
   let aboutContent = fs.readFileSync(path.join(__dirname, 'src/js/about-section.js'), 'utf8');
   aboutContent = cleanModuleCode(aboutContent);
   
-  // Remove initAboutSection function and call it inline
+  // Debug: Check if we have content
+  if (aboutContent.trim().length === 0) {
+    console.error('ERROR: About section content is empty after cleanModuleCode!');
+    aboutContent = fs.readFileSync(path.join(__dirname, 'src/js/about-section.js'), 'utf8');
+    // Don't use cleanModuleCode if it's removing everything
+  }
+  
+  // Remove initAboutSection function (we'll initialize split inline)
   aboutContent = aboutContent.replace(/function initAboutSection\(\) \{[\s\S]*?\n\}/, '');
   aboutContent = aboutContent.replace(/initAboutSection\(\);\n\n?/g, '');
   
-  // Replace split initialization
-  aboutContent = aboutContent.replace(/let split = null;/, 'const split = new SplitText(".home_about-text", { type: "lines", mask: "lines" });');
+  // Replace split initialization - but check if element exists first
+  aboutContent = aboutContent.replace(/let split = null;/, 'let split = null;\n    const aboutTextEl = document.querySelector(".home_about-text");\n    if (aboutTextEl && typeof SplitText !== \'undefined\') {\n      split = new SplitText(".home_about-text", { type: "lines", mask: "lines" });\n    } else {\n      console.warn(\'Balnova Animations: .home_about-text element or SplitText plugin not found\');\n    }');
   
-  // Remove getAboutLeftClip function (it's only used in scroll-timeline, not needed here)
-  aboutContent = aboutContent.replace(/\/\*\*[\s\S]*?Gets the about left clip object[\s\S]*?\*\/\s*function getAboutLeftClip\(\) \{[\s\S]*?return aboutLeftClip;[\s\S]*?\}\s*/g, '');
+  // Keep getAboutLeftClip function - it's needed for the scroll timeline
+  // Don't remove it - the regex was too aggressive
   
-  // Remove any leftover semicolons and closing braces from module.exports
-  aboutContent = aboutContent.replace(/\s*;\s*\}\s*$/gm, '');
+  // Make sure we still have content after all replacements
+  if (aboutContent.trim().length === 0) {
+    console.error('ERROR: About section content is empty after all processing!');
+  }
   
   // Indent all lines, preserving empty lines
   aboutContent = aboutContent.split('\n').map(line => {
@@ -320,7 +329,7 @@ function build() {
     return '    ' + line;
   }).join('\n');
   
-  // Remove any trailing leftover braces after indentation
+  // Clean up any trailing issues
   aboutContent = aboutContent.replace(/\n\s*;\s*\n\s*\}\s*$/, '');
   
   output += aboutContent + '\n\n';
