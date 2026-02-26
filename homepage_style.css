@@ -30,7 +30,7 @@ html{
 
  .hero-letter {
    opacity: 0;
-   transform: translateY(20px);
+   
  }
 
 
@@ -51,7 +51,7 @@ html{
  @keyframes heroLetterUp {
    to {
      opacity: 1;
-     transform: translateY(0);
+     
    }
  }
 
@@ -60,7 +60,7 @@ html{
  .hero-word {
    display: inline-block;
    opacity: 0;
-   transform: translateY(15px);
+   
  }
 
 
@@ -79,7 +79,7 @@ html{
  @keyframes heroWordUp {
    to {
      opacity: 1;
-     transform: translateY(0);
+     
    }
  }
 
