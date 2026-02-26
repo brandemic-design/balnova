@@ -35,17 +35,17 @@ html{
 
 
  .hero-letter.animate {
-   animation: heroLetterUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+   animation: heroLetterUp 3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
  }
 
 
 .hl1.animate { animation-delay: 0s; }
-.hl2.animate { animation-delay: 0.1s; }
-.hl3.animate { animation-delay: 0.2s; }
-.hl4.animate { animation-delay: 0.3s; }
-.hl5.animate { animation-delay: 0.4s; }
-.hl6.animate { animation-delay: 0.5s; }
-.hl7.animate { animation-delay: 0.6s; }
+.hl2.animate { animation-delay: 0s; }
+.hl3.animate { animation-delay: 0s; }
+.hl4.animate { animation-delay: 0s; }
+.hl5.animate { animation-delay: 0s; }
+.hl6.animate { animation-delay: 0s; }
+.hl7.animate { animation-delay: 0s; }
 
 
  @keyframes heroLetterUp {
