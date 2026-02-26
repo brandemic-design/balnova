@@ -92,8 +92,11 @@ function initScrollTimeline(
     x4: 100, 
     ease: "none",
     onUpdate: () => {
-      document.querySelector(".home_about-left").style.clipPath = 
-        `polygon(0 0, ${getAboutLeftClip().x2}% 0, ${getAboutLeftClip().x4}% 100%, 0 100%)`;
+      const aboutLeftEl = document.querySelector(".home_about-left");
+      if (aboutLeftEl) {
+        aboutLeftEl.style.clipPath = 
+          `polygon(0 0, ${getAboutLeftClip().x2}% 0, ${getAboutLeftClip().x4}% 100%, 0 100%)`;
+      }
     }
   })
   .to(".home_about-left", { "--grad-angle": "-10deg", ease: "none" }, "<");

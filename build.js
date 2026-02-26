@@ -80,15 +80,33 @@ function build() {
   if (rippleMatch) {
     // Get the function body content
     let rippleBody = rippleMatch[1];
-    // Remove the function wrapper and keep just the body
+    // Add safety checks for jQuery and ripple element
     output += 'function initRippleEffect() {\n';
+    output += '  // Check if jQuery and ripple plugin are loaded\n';
+    output += '  if (typeof $ === \'undefined\' || typeof $.fn.ripples === \'undefined\') {\n';
+    output += '    console.warn(\'Balnova Animations: jQuery or ripple plugin not loaded. Ripple effect will not work.\');\n';
+    output += '    return;\n';
+    output += '  }\n';
+    output += '  \n';
+    output += '  const rippleElement = document.querySelector(\'#ripple\');\n';
+    output += '  if (!rippleElement) {\n';
+    output += '    console.warn(\'Balnova Animations: #ripple element not found. Ripple effect will not work.\');\n';
+    output += '    return;\n';
+    output += '  }\n\n';
     output += rippleBody;
-    output += '\n}\n\n';
+    output += '  \n';
+    output += '  img.onerror = () => {\n';
+    output += '    console.warn(\'Balnova Animations: Ripple image failed to load.\');\n';
+    output += '  };\n';
+    output += '}\n\n';
   } else {
     // Fallback: if regex doesn't match, try to extract the content differently
     const altMatch = rippleContent.match(/\{([\s\S]*?)\n\}/);
     if (altMatch) {
       output += 'function initRippleEffect() {\n';
+      output += '  if (typeof $ === \'undefined\' || typeof $.fn.ripples === \'undefined\') return;\n';
+      output += '  const rippleElement = document.querySelector(\'#ripple\');\n';
+      output += '  if (!rippleElement) return;\n';
       output += altMatch[1];
       output += '\n}\n\n';
     }
@@ -99,18 +117,62 @@ function build() {
   output += '// MAIN GSAP ANIMATIONS SETUP\n';
   output += '// ============================================================================\n\n';
   
+  output += '// Function to check if GSAP and plugins are loaded\n';
+  output += 'function checkGSAPDependencies() {\n';
+  output += '  if (typeof gsap === \'undefined\') {\n';
+  output += '    console.error(\'Balnova Animations: GSAP is not loaded. Please include GSAP library.\');\n';
+  output += '    return false;\n';
+  output += '  }\n';
+  output += '  if (typeof ScrollTrigger === \'undefined\') {\n';
+  output += '    console.error(\'Balnova Animations: ScrollTrigger plugin is not loaded.\');\n';
+  output += '    return false;\n';
+  output += '  }\n';
+  output += '  if (typeof SplitText === \'undefined\') {\n';
+  output += '    console.error(\'Balnova Animations: SplitText plugin is not loaded.\');\n';
+  output += '    return false;\n';
+  output += '  }\n';
+  output += '  if (typeof Flip === \'undefined\') {\n';
+  output += '    console.error(\'Balnova Animations: Flip plugin is not loaded.\');\n';
+  output += '    return false;\n';
+  output += '  }\n';
+  output += '  return true;\n';
+  output += '}\n\n';
+  
+  output += '// Function to safely set GSAP properties\n';
+  output += 'function safeGSAPSet(selector, props) {\n';
+  output += '  const elements = document.querySelectorAll(selector);\n';
+  output += '  if (elements.length === 0) {\n';
+  output += '    console.warn(\'Balnova Animations: Element not found:\', selector);\n';
+  output += '    return false;\n';
+  output += '  }\n';
+  output += '  gsap.set(elements, props);\n';
+  output += '  return true;\n';
+  output += '}\n\n';
+  
   output += 'document.addEventListener("DOMContentLoaded", (event) => {\n';
   output += '  document.fonts.ready.then(() => {\n\n';
+  output += '    // Check if GSAP and plugins are loaded\n';
+  output += '    if (!checkGSAPDependencies()) {\n';
+  output += '      console.error(\'Balnova Animations: Required dependencies not loaded. Animations will not work.\');\n';
+  output += '      return;\n';
+  output += '    }\n\n';
   output += '    // Register GSAP plugins\n';
   output += '    gsap.registerPlugin(ScrollTrigger, SplitText, Flip);\n\n';
-  output += '    // Initial GSAP settings\n';
-  output += '    gsap.set(".section_home-about", { position: "absolute" });\n';
-  output += '    gsap.set(".section_home-service", { position: "absolute" });\n';
-  output += '    gsap.set(".home_about-text, .service_border-text, .service_button", { autoAlpha: 0 });\n';
-  output += '    gsap.set(".home_service-text", { autoAlpha: 0, y: 30, filter: "blur(8px)", scale: 0.85 });\n';
-  output += '    gsap.set(".about_image-wrapper", { y: "100%" });\n';
-  output += '    gsap.set(".about_design-wrapper", { x: "100%" });\n';
-  output += '    gsap.set(".home_about-left", { clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)" });\n\n';
+  output += '    // Initial GSAP settings - with element existence checks\n';
+  output += '    safeGSAPSet(".section_home-about", { position: "absolute" });\n';
+  output += '    safeGSAPSet(".section_home-service", { position: "absolute" });\n';
+  output += '    safeGSAPSet(".home_about-text, .service_border-text, .service_button", { autoAlpha: 0 });\n';
+  output += '    safeGSAPSet(".home_service-text", { autoAlpha: 0, y: 30, filter: "blur(8px)", scale: 0.85 });\n';
+  output += '    safeGSAPSet(".about_image-wrapper", { y: "100%" });\n';
+  output += '    safeGSAPSet(".about_design-wrapper", { x: "100%" });\n';
+  output += '    \n';
+  output += '    // Check if .home_about-left exists before setting\n';
+  output += '    const aboutLeft = document.querySelector(".home_about-left");\n';
+  output += '    if (aboutLeft) {\n';
+  output += '      gsap.set(aboutLeft, { clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)" });\n';
+  output += '    } else {\n';
+  output += '      console.warn(\'Balnova Animations: .home_about-left element not found\');\n';
+  output += '    }\n\n';
   
   // ===== SERVICE SECTION =====
   output += '    // ========================================================================\n';

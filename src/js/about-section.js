@@ -36,19 +36,24 @@ function playAboutReveal() {
     duration: 1.2, 
     ease: "power2.out",
     onUpdate: () => {
-      document.querySelector(".home_about-left").style.clipPath = 
-        `polygon(0 0, ${aboutLeftClip.x2}% 0, ${aboutLeftClip.x4}% 100%, 0 100%)`;
+      const aboutLeftEl = document.querySelector(".home_about-left");
+      if (aboutLeftEl) {
+        aboutLeftEl.style.clipPath = 
+          `polygon(0 0, ${aboutLeftClip.x2}% 0, ${aboutLeftClip.x4}% 100%, 0 100%)`;
+      }
     },
     onComplete: () => {
       if (textAnimated) return;
       textAnimated = true;
       gsap.set(".home_about-text", { autoAlpha: 1 });
-      gsap.from(split.lines, { 
-        opacity: 0,
-        duration: 2,
-        ease: "sine.out",
-        stagger: 0.1,
-      });
+      if (split && split.lines) {
+        gsap.from(split.lines, { 
+          opacity: 0,
+          duration: 2,
+          ease: "sine.out",
+          stagger: 0.1,
+        });
+      }
       gsap.to(".about_image-wrapper", { 
         y: "0%", 
         duration: 0.8, 

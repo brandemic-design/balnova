@@ -72,6 +72,18 @@ function resetHeroAnimations() {
 // ============================================================================
 
 function initRippleEffect() {
+  // Check if jQuery and ripple plugin are loaded
+  if (typeof $ === 'undefined' || typeof $.fn.ripples === 'undefined') {
+    console.warn('Balnova Animations: jQuery or ripple plugin not loaded. Ripple effect will not work.');
+    return;
+  }
+  
+  const rippleElement = document.querySelector('#ripple');
+  if (!rippleElement) {
+    console.warn('Balnova Animations: #ripple element not found. Ripple effect will not work.');
+    return;
+  }
+
 
   const img = new Image();
   img.src = 'https://cdn.prod.website-files.com/6989b2816152e02c42b27db1/69946565ddabdcc627e1c8d7_image%20(1).webp';
@@ -82,6 +94,9 @@ function initRippleEffect() {
       dropRadius: 20,
       perturbance: 0.01,
     });
+  };  
+  img.onerror = () => {
+    console.warn('Balnova Animations: Ripple image failed to load.');
   };
 }
 
@@ -89,20 +104,65 @@ function initRippleEffect() {
 // MAIN GSAP ANIMATIONS SETUP
 // ============================================================================
 
+// Function to check if GSAP and plugins are loaded
+function checkGSAPDependencies() {
+  if (typeof gsap === 'undefined') {
+    console.error('Balnova Animations: GSAP is not loaded. Please include GSAP library.');
+    return false;
+  }
+  if (typeof ScrollTrigger === 'undefined') {
+    console.error('Balnova Animations: ScrollTrigger plugin is not loaded.');
+    return false;
+  }
+  if (typeof SplitText === 'undefined') {
+    console.error('Balnova Animations: SplitText plugin is not loaded.');
+    return false;
+  }
+  if (typeof Flip === 'undefined') {
+    console.error('Balnova Animations: Flip plugin is not loaded.');
+    return false;
+  }
+  return true;
+}
+
+// Function to safely set GSAP properties
+function safeGSAPSet(selector, props) {
+  const elements = document.querySelectorAll(selector);
+  if (elements.length === 0) {
+    console.warn('Balnova Animations: Element not found:', selector);
+    return false;
+  }
+  gsap.set(elements, props);
+  return true;
+}
+
 document.addEventListener("DOMContentLoaded", (event) => {
   document.fonts.ready.then(() => {
+
+    // Check if GSAP and plugins are loaded
+    if (!checkGSAPDependencies()) {
+      console.error('Balnova Animations: Required dependencies not loaded. Animations will not work.');
+      return;
+    }
 
     // Register GSAP plugins
     gsap.registerPlugin(ScrollTrigger, SplitText, Flip);
 
-    // Initial GSAP settings
-    gsap.set(".section_home-about", { position: "absolute" });
-    gsap.set(".section_home-service", { position: "absolute" });
-    gsap.set(".home_about-text, .service_border-text, .service_button", { autoAlpha: 0 });
-    gsap.set(".home_service-text", { autoAlpha: 0, y: 30, filter: "blur(8px)", scale: 0.85 });
-    gsap.set(".about_image-wrapper", { y: "100%" });
-    gsap.set(".about_design-wrapper", { x: "100%" });
-    gsap.set(".home_about-left", { clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)" });
+    // Initial GSAP settings - with element existence checks
+    safeGSAPSet(".section_home-about", { position: "absolute" });
+    safeGSAPSet(".section_home-service", { position: "absolute" });
+    safeGSAPSet(".home_about-text, .service_border-text, .service_button", { autoAlpha: 0 });
+    safeGSAPSet(".home_service-text", { autoAlpha: 0, y: 30, filter: "blur(8px)", scale: 0.85 });
+    safeGSAPSet(".about_image-wrapper", { y: "100%" });
+    safeGSAPSet(".about_design-wrapper", { x: "100%" });
+    
+    // Check if .home_about-left exists before setting
+    const aboutLeft = document.querySelector(".home_about-left");
+    if (aboutLeft) {
+      gsap.set(aboutLeft, { clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)" });
+    } else {
+      console.warn('Balnova Animations: .home_about-left element not found');
+    }
 
     // ========================================================================
     // SERVICE SECTION ANIMATIONS
@@ -431,8 +491,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
         x4: 100, 
         ease: "none",
         onUpdate: () => {
-          document.querySelector(".home_about-left").style.clipPath = 
-            `polygon(0 0, ${aboutLeftClip.x2}% 0, ${aboutLeftClip.x4}% 100%, 0 100%)`;
+          const aboutLeftEl = document.querySelector(".home_about-left");
+          if (aboutLeftEl) {
+            aboutLeftEl.style.clipPath = 
+              `polygon(0 0, ${aboutLeftClip.x2}% 0, ${aboutLeftClip.x4}% 100%, 0 100%)`;
+          }
         }
       })
       .to(".home_about-left", { "--grad-angle": "-10deg", ease: "none" }, "<");
