@@ -30,10 +30,12 @@ function initLogoAnimations() {
         const state = Flip.getState(logoSvg);
         gsap.to(mainLogo, {
           opacity: 0,
-          width: 0,
           duration: 1,
           ease: "power3.out",
-          transformOrigin: "right right"
+          transformOrigin: "right right",
+          onComplete: () => {
+            width: 0;
+          }
         });
         logoLink.style.justifyContent = "center";
         Flip.from(state, {
