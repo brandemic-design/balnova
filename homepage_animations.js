@@ -422,6 +422,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let aboutExiting = false;
     let aboutClipTl = null;
     let split = null;
+    let splitDesign = null;
         const aboutTextEl = document.querySelector(".home_about-text");
         const aboutDesigtEl = document.querySelector(".home_about-text");
         if (aboutTextEl && typeof SplitText !== 'undefined') {
@@ -431,7 +432,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
 
         if (aboutDesigtEl && typeof SplitText !== 'undefined') {
-          split = new SplitText(".home_about-para", { type: "words", mask: "lines" });
+          splitDesign = new SplitText(".home_about-para", { type: "words", mask: "lines" });
         } else {
           console.warn('Balnova Animations: .home_about-para element or SplitText plugin not found');
         }
@@ -490,8 +491,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
               gsap.fromTo(".about_design-container", { scale: 0.8 }, { scale: 1, duration: 4, ease: "none" });
               gsap.set(".about_design-container", { opacity: 1 });
               gsap.set(".about_design-para", { autoAlpha: 1 });
-              if (split && split.words) {
-              gsap.from(split.words, {
+              if (splitDesign && splitDesign.words) {
+              gsap.from(splitDesign.words, {
                opacity: 0,
                duration: 2,
                ease: "sine.out",
