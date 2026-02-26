@@ -424,7 +424,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let split = null;
         const aboutTextEl = document.querySelector(".home_about-text");
         if (aboutTextEl && typeof SplitText !== 'undefined') {
-          split = new SplitText(".home_about-text", { type: "lines", mask: "lines" });
+          split = new SplitText(".home_about-text", { type: "words", mask: "lines" });
         } else {
           console.warn('Balnova Animations: .home_about-text element or SplitText plugin not found');
         }
@@ -465,8 +465,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
           gsap.fromTo(".home_about-content", { scale: 0.8 }, { scale: 1, duration: 4, ease: "none" });
           gsap.set(".home_about-content", { opacity: 1 });
           gsap.set(".home_about-text", { autoAlpha: 1 });
-          if (split && split.lines) {
-            gsap.from(split.lines, { 
+          if (split && split.words) {
+            gsap.from(split.words, { 
               opacity: 0,
               duration: 2,
               ease: "sine.out",
