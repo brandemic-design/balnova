@@ -586,7 +586,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             logoAnimating = true;
             const state = Flip.getState(logoSvg);
             gsap.to(mainLogo, {
-              op: 1,
+              opacity: 1,
               width: "auto",
               duration: 1,
               ease: "power3.out",
