@@ -116,8 +116,8 @@ function initRippleEffect() {
   img.onload = () => {
     $('#ripple').ripples({
       resolution: 512,
-      dropRadius: 10,
-      perturbance: 0.0005,
+      dropRadius: 15,
+      perturbance: 0.0001,
     });
   };  
   img.onerror = () => {
