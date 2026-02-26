@@ -424,7 +424,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let split = null;
     let splitDesign = null;
         const aboutTextEl = document.querySelector(".home_about-text");
-        const aboutDesigtEl = document.querySelector(".home_about-text");
+        const aboutDesigtEl = document.querySelector(".home_about-para");
         if (aboutTextEl && typeof SplitText !== 'undefined') {
           split = new SplitText(".home_about-text", { type: "words", mask: "lines" });
         } else {
