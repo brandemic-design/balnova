@@ -424,7 +424,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let split = null;
     let splitDesign = null;
         const aboutTextEl = document.querySelector(".home_about-text");
-        const aboutDesigtEl = document.querySelector(".home_about-para");
+        const aboutDesigtEl = document.querySelector(".about_design-para");
         if (aboutTextEl && typeof SplitText !== 'undefined') {
           split = new SplitText(".home_about-text", { type: "words", mask: "lines" });
         } else {
@@ -432,9 +432,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
 
         if (aboutDesigtEl && typeof SplitText !== 'undefined') {
-          splitDesign = new SplitText(".home_about-para", { type: "words", mask: "lines" });
+          splitDesign = new SplitText(".about_design-para", { type: "words", mask: "lines" });
         } else {
-          console.warn('Balnova Animations: .home_about-para element or SplitText plugin not found');
+          console.warn('Balnova Animations: .about_design-para element or SplitText plugin not found');
         }
 
     /**
