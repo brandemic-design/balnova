@@ -423,10 +423,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let aboutClipTl = null;
     let split = null;
         const aboutTextEl = document.querySelector(".home_about-text");
+        const aboutDesigtEl = document.querySelector(".home_about-text");
         if (aboutTextEl && typeof SplitText !== 'undefined') {
           split = new SplitText(".home_about-text", { type: "words", mask: "lines" });
         } else {
           console.warn('Balnova Animations: .home_about-text element or SplitText plugin not found');
+        }
+
+        if (aboutDesigtEl && typeof SplitText !== 'undefined') {
+          split = new SplitText(".home_about-para", { type: "words", mask: "lines" });
+        } else {
+          console.warn('Balnova Animations: .home_about-para element or SplitText plugin not found');
         }
 
     /**
@@ -480,6 +487,18 @@ document.addEventListener("DOMContentLoaded", (event) => {
             stagger: 0.25,
             onComplete: () => {
               gsap.to(".about_design-wrapper", { x: "0%", duration: 0.8 });
+              gsap.fromTo(".about_design-container", { scale: 0.8 }, { scale: 1, duration: 4, ease: "none" });
+              gsap.set(".about_design-container", { opacity: 1 });
+              gsap.set(".about_design-para", { autoAlpha: 1 });
+              if (split && split.words) {
+              gsap.from(split.words, {
+               opacity: 0,
+               duration: 2,
+               ease: "sine.out",
+               stagger: 0.1,
+           });
+         }
+
             }
           });
           gsap.set(".home_about-left", { 
