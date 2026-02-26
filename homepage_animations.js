@@ -476,8 +476,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
           }
           gsap.to(".about_image-wrapper", { 
             y: "0%", 
-            duration: 0.8, 
-            ease: "power3.out", 
+            duration: 1.5, 
+            ease: "power1.out", 
             stagger: 0.25,
             onComplete: () => {
               gsap.to(".about_design-wrapper", { x: "0%", duration: 1.5, ease: "power1.out" });
