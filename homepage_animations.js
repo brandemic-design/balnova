@@ -558,11 +558,15 @@ document.addEventListener("DOMContentLoaded", (event) => {
             logoAnimating = true;
             const state = Flip.getState(logoSvg);
             gsap.to(mainLogo, {
-              scaleX: 0,
-              width: 0,
+              opacity: 0,
               duration: 1,
               ease: "power3.out",
-              transformOrigin: "right right"
+              transformOrigin: "right right",
+              onComplete: () => {
+                gsap.to(mainLogo, {
+                  width: 0
+                });
+              }
             });
             logoLink.style.justifyContent = "center";
             Flip.from(state, {
@@ -582,7 +586,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             logoAnimating = true;
             const state = Flip.getState(logoSvg);
             gsap.to(mainLogo, {
-              scaleX: 1,
+              op: 1,
               width: "auto",
               duration: 1,
               ease: "power3.out",
