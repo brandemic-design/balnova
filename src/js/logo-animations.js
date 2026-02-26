@@ -34,7 +34,9 @@ function initLogoAnimations() {
           ease: "power3.out",
           transformOrigin: "right right",
           onComplete: () => {
-            width: 0;
+            gsap.to(mainLogo, {
+              width: 0
+            });
           }
         });
         logoLink.style.justifyContent = "center";
