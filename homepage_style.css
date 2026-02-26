@@ -35,17 +35,17 @@ html{
 
 
  .hero-letter.animate {
-   animation: heroLetterUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+   animation: heroLetterUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
  }
 
 
  .hl1.animate { animation-delay: 0s; }
- .hl2.animate { animation-delay: 0.1s; }
- .hl3.animate { animation-delay: 0.2s; }
- .hl4.animate { animation-delay: 0.3s; }
- .hl5.animate { animation-delay: 0.4s; }
- .hl6.animate { animation-delay: 0.5s; }
- .hl7.animate { animation-delay: 0.6s; }
+.hl2.animate { animation-delay: 0.15s; }
+.hl3.animate { animation-delay: 0.3s; }
+.hl4.animate { animation-delay: 0.45s; }
+.hl5.animate { animation-delay: 0.6s; }
+.hl6.animate { animation-delay: 0.75s; }
+.hl7.animate { animation-delay: 0.9s; }
 
 
  @keyframes heroLetterUp {
@@ -65,15 +65,15 @@ html{
 
 
  .hero-word.animate {
-   animation: heroWordUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+   animation: heroWordUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
  }
 
 
- .hw1.animate { animation-delay: 0s; }
- .hw2.animate { animation-delay: 0.1s; }
- .hw3.animate { animation-delay: 0.15s; }
- .hw4.animate { animation-delay: 0.25s; }
- .hw5.animate { animation-delay: 0.35s; }
+.hw1.animate { animation-delay: 0s; }
+.hw2.animate { animation-delay: 0.2s; }
+.hw3.animate { animation-delay: 0.3s; }
+.hw4.animate { animation-delay: 0.45s; }
+.hw5.animate { animation-delay: 0.6s; }
 
 
  @keyframes heroWordUp {
