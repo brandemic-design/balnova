@@ -10,7 +10,46 @@
 // HERO SECTION ANIMATIONS
 // ============================================================================
 
+/**
+ * Hero Section Animations
+ * Handles letter and word reveal animations for the hero section
+ */
 
+let heroAnimated = false;
+
+/**
+ * Plays the hero reveal animation
+ */
+function playHeroReveal() {
+  if (heroAnimated) return;
+  heroAnimated = true;
+  
+  document.querySelectorAll('.hero-letter').forEach(function(el) {
+    el.classList.add('animate');
+  });
+  
+  setTimeout(function() {
+    document.querySelectorAll('.hero-word').forEach(function(el) {
+      el.classList.add('animate');
+    });
+  }, 800);
+}
+
+/**
+ * Resets hero animations
+ */
+function resetHeroAnimations() {
+  if (!heroAnimated) return;
+  heroAnimated = false;
+  
+  document.querySelectorAll('.hero-letter').forEach(function(el) {
+    el.classList.remove('animate');
+  });
+  
+  document.querySelectorAll('.hero-word').forEach(function(el) {
+    el.classList.remove('animate');
+  });
+}
 
 // Initialize hero animations on page load
 // Initial animation after page load

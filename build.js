@@ -44,19 +44,24 @@ function build() {
   
   // Extract the initHeroAnimations function body
   const initHeroMatch = heroContent.match(/function initHeroAnimations\(\) \{([\s\S]*?)\n\}/);
-  let heroCode = heroContent.replace(/function initHeroAnimations\(\) \{[\s\S]*?\n\}/, '');
   
-  // Remove the function declaration comment if it exists
-  heroCode = heroCode.replace(/\*\*[\s\S]*?Initial hero animation on page load[\s\S]*?\*\//, '');
-  heroCode = heroCode.replace(/^\/\s*$/, ''); // Remove stray slashes
+  // Find the start of the initHeroAnimations function (including its comment)
+  // Look for the comment that precedes it
+  const commentStart = heroContent.lastIndexOf('/**', heroContent.indexOf('function initHeroAnimations()'));
+  const funcStart = heroContent.indexOf('function initHeroAnimations()');
   
-  // Clean up any remaining empty lines or stray characters
-  heroCode = heroCode.replace(/^\s*\/\s*$/gm, '');
-  heroCode = heroCode.replace(/^\s*;\s*\}\s*$/gm, '');
+  if (funcStart === -1) {
+    // Function not found, output everything
+    output += heroContent.trim() + '\n\n';
+  } else {
+    // Get everything before the comment (if found) or before the function
+    const cutPoint = (commentStart > 0 && commentStart < funcStart) ? commentStart : funcStart;
+    let heroCode = heroContent.substring(0, cutPoint);
+    heroCode = heroCode.trim();
+    output += heroCode + '\n\n';
+  }
   
-  output += heroCode.trim() + '\n\n';
-  
-  // Add initHeroAnimations code inline
+  // Add initHeroAnimations code inline (without the function wrapper)
   if (initHeroMatch) {
     output += '// Initialize hero animations on page load\n';
     output += initHeroMatch[1].trim() + '\n\n';
