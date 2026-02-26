@@ -479,10 +479,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
             duration: 1.5, 
             ease: "power1.out", 
             stagger: 0.25,
-            onComplete: () => {
-              gsap.to(".about_design-wrapper", { x: "0%", duration: 1.5, ease: "power1.out" });
-              }
           });
+          gsap.to(".about_design-wrapper", { x: "0%", duration: 1.5, ease: "power1.out" });
           gsap.set(".home_about-left", { 
             clipPath: "polygon(0px 0px, 30% 0px, 76% 100%, 0px 100%)" 
           });
