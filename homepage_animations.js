@@ -417,6 +417,27 @@ document.addEventListener("DOMContentLoaded", (event) => {
       currentIndex = -1;
       serviceRevealed = false;
       isAnimating = false;
+
+      function serviceProcessScroll() {
+        if (isMobile()) return;
+        
+        let processWrapper = document.querySelector(".service_text-container");
+        if (!processWrapper) return;
+        
+        processTl = gsap.timeline({
+        scrollTrigger: {
+        trigger: ".section_home-service",
+        start: "center center",
+        end: "+=1500",
+        scrub: true,
+        pin: true,
+        anticipatePin: 1
+        },
+        defaults: { ease: "none" }
+        });
+        
+        processTl.fromTo(processWrapper, { x: 0 }, { x: -(processWrapper.offsetWidth - 1248) });
+        }
     }
 
     /**
