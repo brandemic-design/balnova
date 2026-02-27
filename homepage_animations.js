@@ -364,7 +364,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       if (isAnimating) {
         gsap.killTweensOf(serviceImages);
         gsap.killTweensOf(".service_border-text, .service_button");
-        gsap.killTweensOf(".home_sevice-text");
+        gsap.killTweensOf(".home_sevice-text, .service_button");
       }
 
       serviceImages.forEach(img => {
