@@ -452,7 +452,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         x2: 30, 
         x4: 76, 
         duration: 2, 
-        ease: "power1.out",
+        ease: "power2.out",
         onUpdate: () => {
           const aboutLeftEl = document.querySelector(".home_about-left");
           if (aboutLeftEl) {
