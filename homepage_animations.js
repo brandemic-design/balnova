@@ -669,11 +669,23 @@ document.addEventListener("DOMContentLoaded", (event) => {
             if (self.progress > 0.99 && !serviceRevealed) {
               revealService(0);
             }
-    
-            if (self.progress < 0.98 && serviceRevealed) {
+
+            // While scrolling up near the bottom of the main wrapper,
+            // slide the service text and button to the right
+            if (scrollingUp && serviceRevealed && self.progress <= 0.99 && self.progress >= 0.8) {
+              const xVal = gsap.utils.mapRange(1, 0.8, 0, 120, self.progress);
+              gsap.to(".home_sevice-text, .service_button", {
+                x: xVal,
+                duration: 0.1,
+                ease: "none",
+                overwrite: true
+              });
+            }
+
+            if (self.progress < 0.8 && serviceRevealed) {
               resetServiceSection();
             }
-    
+
             prevProgress = self.progress;
           }
         }
