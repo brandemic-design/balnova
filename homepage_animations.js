@@ -372,6 +372,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
       });
 
       gsap.set(".service_border-text", { autoAlpha: 0, overwrite: true });
+      gsap.set(".home_sevice-text, .service_button", { 
+        autoAlpha: 0,
+        overwrite: true
+      });
       serviceTexts.forEach(t => t.classList.remove("active"));
       gsap.set(".js-service-text-disabled", { 
         autoAlpha: 0, 
