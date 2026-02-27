@@ -194,6 +194,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Initial GSAP settings - with element existence checks
     const aboutSection = safeGSAPSet(".section_home-about", { position: "absolute" });
     const serviceSection = safeGSAPSet(".section_home-service", { position: "absolute" });
+    safeGSAPSet(".home_about-text, .service_border-text, .service_button", { autoAlpha: 0 });
     safeGSAPSet(".home_service-text", { autoAlpha: 0, y: 30, filter: "blur(8px)", scale: 0.85 });
     safeGSAPSet(".about_image-wrapper", { y: "100%" });
     safeGSAPSet(".about_design-wrapper", { x: "100%" });
@@ -223,6 +224,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     gsap.set(serviceImages, { autoAlpha: 0, zIndex: 0 });
 
+    document.querySelectorAll(".service_button-wrapper").forEach(btn => {
+      gsap.set(btn, { autoAlpha: btn.getAttribute("data-text") == "1" ? 1 : 0 });
+    });
+
     let currentIndex = -1;
     let isAnimating = false;
     let serviceRevealed = false;
@@ -249,6 +254,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
       // First reveal - show all service elements
       if (!serviceRevealed) {
         serviceRevealed = true;
+        gsap.to(".service_border-text, .service_button", {
+          autoAlpha: 1, 
+          duration: 0.5, 
+          ease: "none", 
+          overwrite: true
+        });
         gsap.to(".home_service-text", {
           autoAlpha: 1,
           y: 0,
@@ -264,6 +275,14 @@ document.addEventListener("DOMContentLoaded", (event) => {
       // Update active text
       serviceTexts.forEach((t, i) => {
         t.classList.toggle("active", i === index);
+      });
+
+      // Update button visibility
+      document.querySelectorAll(".service_button-wrapper").forEach(btn => {
+        gsap.to(btn, {
+          autoAlpha: btn.getAttribute("data-text") == index + 1 ? 1 : 0,
+          duration: 0.5
+        });
       });
 
       // First service reveal
@@ -344,6 +363,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     function resetServiceSection() {
       if (isAnimating) {
         gsap.killTweensOf(serviceImages);
+        gsap.killTweensOf(".service_border-text, .service_button");
         gsap.killTweensOf(".home_service-text");
       }
 
@@ -351,6 +371,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         gsap.set(img, { autoAlpha: 0, zIndex: 0, clipPath: "none" });
       });
 
+      gsap.set(".service_border-text, .service_button", { autoAlpha: 0, overwrite: true });
       serviceTexts.forEach(t => t.classList.remove("active"));
       gsap.set(".home_service-text", { 
         autoAlpha: 0, 
@@ -358,6 +379,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
         filter: "blur(8px)", 
         scale: 0.85, 
         overwrite: true 
+      });
+
+      document.querySelectorAll(".service_button-wrapper").forEach(btn => {
+        gsap.set(btn, { autoAlpha: btn.getAttribute("data-text") == "1" ? 1 : 0 });
       });
 
       currentIndex = -1;
@@ -392,9 +417,17 @@ document.addEventListener("DOMContentLoaded", (event) => {
      */
 
     let aboutLeftClip = { x2: 30, x4: 76 };
+    let textAnimated = false;
     let aboutRevealed = false;
     let aboutExiting = false;
     let aboutClipTl = null;
+    let split = null;
+        const aboutTextEl = document.querySelector(".home_about-text");
+        if (aboutTextEl && typeof SplitText !== 'undefined') {
+          split = new SplitText(".home_about-text", { type: "words", mask: "lines" });
+        } else {
+          console.warn('Balnova Animations: .home_about-text element or SplitText plugin not found');
+        }
 
 
     /**
@@ -428,8 +461,19 @@ document.addEventListener("DOMContentLoaded", (event) => {
           }
         },
         onComplete: () => {
+          if (textAnimated) return;
+          textAnimated = true;
           gsap.fromTo(".home_about-content", { scale: 0.8 }, { scale: 1, duration: 4, ease: "none" });
           gsap.set(".home_about-content", { opacity: 1 });
+          gsap.set(".home_about-text", { autoAlpha: 1 });
+          if (split && split.words) {
+            gsap.from(split.words, { 
+              opacity: 0,
+              duration: 2,
+              ease: "sine.out",
+              stagger: 0.1,
+            });
+          }
           gsap.to(".about_image-wrapper", { 
             y: "0%", 
             duration: 1.5, 
@@ -454,8 +498,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
       const exitTl = gsap.timeline({
         onComplete: () => {
           aboutRevealed = false;
+          textAnimated = false;
           aboutExiting = false;
 
+          gsap.set(".home_about-text", { autoAlpha: 0, x: "0%" });
           gsap.set(".about_image-wrapper", { y: "100%" });
           gsap.set(".about_design-wrapper", { x: "100%" });
           gsap.set(".home_about-left", { 
@@ -468,7 +514,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
       });
 
       exitTl
-        .to(".about_image-wrapper", { y: "100%", duration: 0.8, ease: "power3.in" })
+        .to(".home_about-text", { x: "0%", duration: 0.8, ease: "power3.in" })
+        .to(".about_image-wrapper", { y: "100%", duration: 0.8, ease: "power3.in" }, "<")
         .to(".about_design-wrapper", { x: "100%", duration: 0.8, ease: "power3.in" }, "<")
         .add(() => {
           if (aboutClipTl) {
@@ -608,7 +655,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
         0)
       .to(".section_home-about", { y: 0, ease: "none" }, 0)
       .to({}, { duration: 1 })
-      .to(".about_image-wrapper", { opacity: 0, ease: "power3.in" })
+      .to(".home_about-text", { x: "100%", ease: "power3.in" })
+      .to(".about_image-wrapper", { opacity: 0, ease: "power3.in" }, "<")
       .to(".about_design-wrapper", { opacity: 0, ease: "power3.in" }, "<")
       .to(aboutLeftClip, {
         x2: 100, 
