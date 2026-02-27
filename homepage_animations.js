@@ -10,16 +10,8 @@
 // HERO SECTION ANIMATIONS
 // ============================================================================
 
-/**
- * Hero Section Animations
- * Handles letter and word reveal animations for the hero section
- */
-
 let heroAnimated = false;
 
-/**
- * Plays the hero reveal animation
- */
 function playHeroReveal() {
   if (heroAnimated) return;
   heroAnimated = true;
@@ -35,9 +27,6 @@ function playHeroReveal() {
   }, 800);
 }
 
-/**
- * Resets hero animations
- */
 function resetHeroAnimations() {
   if (!heroAnimated) return;
   heroAnimated = false;
@@ -51,8 +40,6 @@ function resetHeroAnimations() {
   });
 }
 
-// Initialize hero animations on page load
-// Wait for DOM to be ready
 (function initHeroOnLoad() {
   function initHeroAnimations() {
     const heroLetters = document.querySelectorAll('.hero-letter');
@@ -65,7 +52,6 @@ function resetHeroAnimations() {
       
       console.log('Balnova Animations: Hero elements found, initializing animations...');
       
-      // Initial animation after page load
       setTimeout(function() {
         heroLetters.forEach(function(el) {
           el.classList.add('animate');
@@ -74,7 +60,6 @@ function resetHeroAnimations() {
         console.log('Balnova Animations: Hero letters animated ✓');
       }, 4800);
     
-      // Trigger subtitle words after logo letters finish
       setTimeout(function() {
         heroWords.forEach(function(el) {
           el.classList.add('animate');
@@ -97,7 +82,6 @@ function resetHeroAnimations() {
 // ============================================================================
 
 function initRippleEffect() {
-  // Check if jQuery and ripple plugin are loaded
   if (typeof $ === 'undefined' || typeof $.fn.ripples === 'undefined') {
     console.warn('Balnova Animations: jQuery or ripple plugin not loaded. Ripple effect will not work.');
     return;
@@ -108,7 +92,6 @@ function initRippleEffect() {
     console.warn('Balnova Animations: #ripple element not found. Ripple effect will not work.');
     return;
   }
-
 
   const img = new Image();
   img.src = 'https://cdn.prod.website-files.com/6989b2816152e02c42b27db1/69946565ddabdcc627e1c8d7_image%20(1).webp';
@@ -129,10 +112,8 @@ function initRippleEffect() {
 // MAIN GSAP ANIMATIONS SETUP
 // ============================================================================
 
-// Add startup message
 console.log('Balnova Animations: Script loaded, waiting for DOM...');
 
-// Function to check if GSAP and plugins are loaded
 function checkGSAPDependencies() {
   if (typeof gsap === 'undefined') {
     console.error('Balnova Animations: GSAP is not loaded. Please include GSAP library.');
@@ -153,7 +134,6 @@ function checkGSAPDependencies() {
   return true;
 }
 
-// Function to safely set GSAP properties
 function safeGSAPSet(selector, props) {
   const elements = document.querySelectorAll(selector);
   if (elements.length === 0) {
@@ -170,7 +150,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
   document.fonts.ready.then(() => {
     console.log('Balnova Animations: Fonts ready, initializing...');
 
-    // Check if GSAP and plugins are loaded
     if (!checkGSAPDependencies()) {
       console.error('Balnova Animations: Required dependencies not loaded. Animations will not work.');
       console.error('Balnova Animations: Please include GSAP and plugins before this script.');
@@ -179,11 +158,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     console.log('Balnova Animations: All dependencies loaded ✓');
 
-    // Register GSAP plugins
     gsap.registerPlugin(ScrollTrigger, SplitText, Flip);
     console.log('Balnova Animations: GSAP plugins registered ✓');
 
-    // Check for critical elements
     const mainWrapper = document.querySelector(".main-wrapper");
     if (!mainWrapper) {
       console.error('Balnova Animations: .main-wrapper element not found! This is required for scroll animations.');
@@ -191,15 +168,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
     console.log('Balnova Animations: .main-wrapper found ✓');
 
-    // Initial GSAP settings - with element existence checks
     const aboutSection = safeGSAPSet(".section_home-about", { position: "absolute" });
     const serviceSection = safeGSAPSet(".section_home-service", { position: "absolute" });
-    safeGSAPSet(".home_about-text, .service_border-text, .service_button", { autoAlpha: 0 });
-    safeGSAPSet(".home_service-text", { autoAlpha: 0, y: 30, filter: "blur(8px)", scale: 0.85 });
+    safeGSAPSet(".home_about-text", { autoAlpha: 0 });
     safeGSAPSet(".about_image-wrapper", { y: "100%" });
     safeGSAPSet(".about_design-wrapper", { x: "100%" });
     
-    // Check if .home_about-left exists before setting
     const aboutLeft = document.querySelector(".home_about-left");
     if (aboutLeft) {
       gsap.set(aboutLeft, { clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)" });
@@ -216,205 +190,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     }
 
     // ========================================================================
-    // SERVICE SECTION ANIMATIONS
-    // ========================================================================
-
-    const serviceImages = document.querySelectorAll(".home_service-image");
-    const serviceTexts = document.querySelectorAll(".home_service-text");
-
-    gsap.set(serviceImages, { autoAlpha: 0, zIndex: 0 });
-
-    document.querySelectorAll(".service_button-wrapper").forEach(btn => {
-      gsap.set(btn, { autoAlpha: btn.getAttribute("data-text") == "1" ? 1 : 0 });
-    });
-
-    let currentIndex = -1;
-    let isAnimating = false;
-    let serviceRevealed = false;
-
-    const clipHidden = "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)";
-    const clipVisible = "polygon(0 100%, 100% 100%, 100% 0%, 0 0%)";
-
-    /**
-     * Service Section Animations
-     * Handles service image reveal and text interactions
-     */
-
-
-    /**
-     * Reveals a service by index
-     * @param {number} index - The service index to reveal
-     * @param {NodeList} serviceImages - All service image elements
-     * @param {NodeList} serviceTexts - All service text elements
-     */
-    function revealService(index) {
-      if (isAnimating) return;
-      isAnimating = true;
-
-      // First reveal - show all service elements
-      if (!serviceRevealed) {
-        serviceRevealed = true;
-        gsap.to(".service_border-text, .service_button", {
-          autoAlpha: 1, 
-          duration: 0.5, 
-          ease: "none", 
-          overwrite: true
-        });
-        gsap.to(".home_service-text", {
-          autoAlpha: 1,
-          y: 0,
-          filter: "blur(0px)",
-          scale: 1,
-          duration: 0.7,
-          ease: "power3.out",
-          stagger: 0.25,
-          overwrite: true
-        });
-      }
-
-      // Update active text
-      serviceTexts.forEach((t, i) => {
-        t.classList.toggle("active", i === index);
-      });
-
-      // Update button visibility
-      document.querySelectorAll(".service_button-wrapper").forEach(btn => {
-        gsap.to(btn, {
-          autoAlpha: btn.getAttribute("data-text") == index + 1 ? 1 : 0,
-          duration: 0.5
-        });
-      });
-
-      // First service reveal
-      if (currentIndex === -1) {
-        gsap.set(serviceImages[index], {
-          visibility: "visible",
-          opacity: 1,
-          zIndex: 1,
-          clipPath: clipHidden
-        });
-
-        gsap.to(serviceImages[index], {
-          clipPath: clipVisible,
-          duration: 1,
-          ease: "power2.out",
-          onComplete: () => {
-            currentIndex = index;
-            isAnimating = false;
-          }
-        });
-        return;
-      }
-
-      // Subsequent reveals - handle transitions
-      const isNext = index > currentIndex;
-      const prevIndex = currentIndex;
-
-      if (isNext) {
-        // Moving forward
-        gsap.set(serviceImages[index], {
-          visibility: "visible",
-          opacity: 1,
-          zIndex: 2,
-          clipPath: clipHidden
-        });
-        gsap.set(serviceImages[prevIndex], { zIndex: 1 });
-
-        gsap.to(serviceImages[index], {
-          clipPath: clipVisible,
-          duration: 1,
-          ease: "power2.out",
-          onComplete: () => {
-            gsap.set(serviceImages[prevIndex], { autoAlpha: 0, zIndex: 0, clipPath: "none" });
-            gsap.set(serviceImages[index], { zIndex: 1 });
-            currentIndex = index;
-            isAnimating = false;
-          }
-        });
-      } else {
-        // Moving backward
-        gsap.set(serviceImages[index], {
-          visibility: "visible",
-          opacity: 1,
-          zIndex: 1,
-          clipPath: clipVisible
-        });
-        gsap.set(serviceImages[prevIndex], { zIndex: 2 });
-
-        gsap.to(serviceImages[prevIndex], {
-          clipPath: clipHidden,
-          duration: 1,
-          ease: "power2.out",
-          onComplete: () => {
-            gsap.set(serviceImages[prevIndex], { autoAlpha: 0, zIndex: 0, clipPath: "none" });
-            gsap.set(serviceImages[index], { zIndex: 1 });
-            currentIndex = index;
-            isAnimating = false;
-          }
-        });
-      }
-    }
-
-    /**
-     * Resets service section to initial state
-     * @param {NodeList} serviceImages - All service image elements
-     * @param {NodeList} serviceTexts - All service text elements
-     */
-    function resetServiceSection() {
-      if (isAnimating) {
-        gsap.killTweensOf(serviceImages);
-        gsap.killTweensOf(".service_border-text, .service_button");
-        gsap.killTweensOf(".home_service-text");
-      }
-
-      serviceImages.forEach(img => {
-        gsap.set(img, { autoAlpha: 0, zIndex: 0, clipPath: "none" });
-      });
-
-      gsap.set(".service_border-text, .service_button", { autoAlpha: 0, overwrite: true });
-      serviceTexts.forEach(t => t.classList.remove("active"));
-      gsap.set(".home_service-text", { 
-        autoAlpha: 0, 
-        y: 30, 
-        filter: "blur(8px)", 
-        scale: 0.85, 
-        overwrite: true 
-      });
-
-      document.querySelectorAll(".service_button-wrapper").forEach(btn => {
-        gsap.set(btn, { autoAlpha: btn.getAttribute("data-text") == "1" ? 1 : 0 });
-      });
-
-      currentIndex = -1;
-      serviceRevealed = false;
-      isAnimating = false;
-    }
-
-    /**
-     * Initializes service section event listeners
-     * @param {NodeList} serviceTexts - All service text elements
-     * @param {NodeList} serviceImages - All service image elements
-     */
-    function initServiceListeners() {
-      serviceTexts.forEach((text, i) => {
-        text.addEventListener("click", () => {
-          if (isAnimating || currentIndex === i) return;
-          revealService(i);
-        });
-      });
-    }
-
-    // Service text click handlers
-    initServiceListeners();
-
-    // ========================================================================
     // ABOUT SECTION ANIMATIONS
     // ========================================================================
-
-    /**
-     * About Section Animations
-     * Handles about section reveal and exit animations
-     */
 
     let aboutLeftClip = { x2: 30, x4: 76 };
     let textAnimated = false;
@@ -429,15 +206,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
           console.warn('Balnova Animations: .home_about-text element or SplitText plugin not found');
         }
 
-
-    /**
-     * Initializes the about section
-     */
-
-
-    /**
-     * Plays the about section reveal animation
-     */
     function playAboutReveal() {
       if (aboutRevealed) return;
       aboutRevealed = true;
@@ -488,9 +256,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
       });
     }
 
-    /**
-     * Plays the about section exit animation
-     */
     function playAboutExit() {
       if (aboutExiting || !aboutRevealed) return;
       aboutExiting = true;
@@ -524,9 +289,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }, "<");
     }
 
-    /**
-     * Gets the about left clip object for timeline updates
-     */
     function getAboutLeftClip() {
       return aboutLeftClip;
     }
@@ -535,7 +297,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // LOGO ANIMATIONS
     // ========================================================================
     
-      // State for logo flip animation
       let logoFlipped = false;
       let logoAnimating = false;
     
@@ -548,7 +309,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
         start: "top top",
         end: "+=1800",
         onUpdate: (self) => {
-          // Flip logo when scrolling down
           if (self.progress > 0.05 && !logoFlipped) {
             logoFlipped = true;
             if (logoAnimating) {
@@ -572,7 +332,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
             });
           }
     
-          // Unflip logo when scrolling back up
           if (self.progress < 0.05 && logoFlipped) {
             logoFlipped = false;
             if (logoAnimating) {
@@ -616,7 +375,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
           onUpdate: (self) => {
             const scrollingUp = self.progress < prevProgress;
     
-            // Handle hero animations
             if (!scrollingUp && self.progress > 0.3 && !heroCleared) {
               heroCleared = true;
               resetHeroAnimations();
@@ -627,22 +385,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
               playHeroReveal();
             }
     
-            // Handle about section
             if (self.progress > 0.15 && !aboutRevealed && !aboutExiting) {
               playAboutReveal();
             }
     
             if (scrollingUp && self.progress < 0.15 && aboutRevealed && !aboutExiting) {
               playAboutExit();
-            }
-    
-            // Handle service section
-            if (self.progress > 0.99 && !serviceRevealed) {
-              revealService(0);
-            }
-    
-            if (self.progress < 0.98 && serviceRevealed) {
-              resetServiceSection();
             }
     
             prevProgress = self.progress;
@@ -672,7 +420,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
       })
       .to(".home_about-left", { "--grad-angle": "-10deg", ease: "none" }, "<");
     
-      // Background position animations
       mainTimeline
         .fromTo(".section_hero",
           { backgroundPositionY: "0px" },
@@ -683,10 +430,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
           { backgroundPositionY: "-50px", ease: "none" },
           0);
 
-    // Initialize ripple effect
     initRippleEffect();
     
-    // Final initialization message
     console.log('Balnova Animations: Initialization complete! ✓');
     console.log('Balnova Animations: If animations are not working, check:');
     console.log('  1. All required HTML classes exist');
