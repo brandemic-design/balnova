@@ -451,8 +451,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
       aboutClipTl.to(aboutLeftClip, {
         x2: 30, 
         x4: 76, 
-        duration: 3, 
-        ease: "power2.out",
+        duration: 2.5, 
+        ease: "power1.out",
         onUpdate: () => {
           const aboutLeftEl = document.querySelector(".home_about-left");
           if (aboutLeftEl) {
