@@ -219,6 +219,37 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // SERVICE SECTION ANIMATIONS
     // ========================================================================
 
+    // Horizontal process scroll for service text on further scroll
+    function serviceProcessScroll() {
+      try {
+        if (typeof isMobile === "function" && isMobile()) return;
+      } catch (e) {
+        // If isMobile doesn't exist, ignore and continue
+      }
+
+      const processWrapper = document.querySelector(".service_text-container");
+      if (!processWrapper) return;
+
+      const maxX = -(processWrapper.offsetWidth - 1248);
+      if (!isFinite(maxX) || maxX >= 0) return;
+
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: ".section_home-service",
+          start: "center center",
+          end: "+=1500",
+          scrub: true,
+          pin: true,
+          anticipatePin: 1
+        },
+        defaults: { ease: "none" }
+      }).fromTo(
+        processWrapper,
+        { x: 0 },
+        { x: maxX }
+      );
+    }
+
     const serviceImages = document.querySelectorAll(".js-service-image-disabled");
     const serviceTexts = document.querySelectorAll(".js-service-text-disabled");
     const homeServiceTexts = document.querySelectorAll(".home_sevice-text");
@@ -232,6 +263,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let currentIndex = -1;
     let isAnimating = false;
     let serviceRevealed = false;
+
+    // Initialize horizontal process scroll for service section
+    serviceProcessScroll();
 
     const clipHidden = "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)";
     const clipVisible = "polygon(0 100%, 100% 100%, 100% 0%, 0 0%)";
@@ -418,26 +452,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       serviceRevealed = false;
       isAnimating = false;
 
-      function serviceProcessScroll() {
-        if (isMobile()) return;
-        
-        let processWrapper = document.querySelector(".service_text-container");
-        if (!processWrapper) return;
-        
-        processTl = gsap.timeline({
-        scrollTrigger: {
-        trigger: ".section_home-service",
-        start: "center center",
-        end: "+=1500",
-        scrub: true,
-        pin: true,
-        anticipatePin: 1
-        },
-        defaults: { ease: "none" }
-        });
-        
-        processTl.fromTo(processWrapper, { x: 0 }, { x: -(processWrapper.offsetWidth - 1248) });
-        }
+      
     }
 
     /**
