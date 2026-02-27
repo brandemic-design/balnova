@@ -194,8 +194,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Initial GSAP settings - with element existence checks
     const aboutSection = safeGSAPSet(".section_home-about", { position: "absolute" });
     const serviceSection = safeGSAPSet(".section_home-service", { position: "absolute" });
-    safeGSAPSet(".home_about-text, .service_border-text, .service_button", { autoAlpha: 0 });
-    safeGSAPSet(".home_service-text", { autoAlpha: 0, y: 30, filter: "blur(8px)", scale: 0.85 });
+    safeGSAPSet(".home_about-text, .service_border-text", { autoAlpha: 0 });
+    safeGSAPSet(".js-service-text-disabled", { autoAlpha: 0, y: 30, filter: "blur(8px)", scale: 0.85 });
     safeGSAPSet(".about_image-wrapper", { y: "100%" });
     safeGSAPSet(".about_design-wrapper", { x: "100%" });
     
@@ -219,12 +219,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // SERVICE SECTION ANIMATIONS
     // ========================================================================
 
-    const serviceImages = document.querySelectorAll(".home_service-image");
-    const serviceTexts = document.querySelectorAll(".home_service-text");
+    const serviceImages = document.querySelectorAll(".js-service-image-disabled");
+    const serviceTexts = document.querySelectorAll(".js-service-text-disabled");
 
     gsap.set(serviceImages, { autoAlpha: 0, zIndex: 0 });
 
-    document.querySelectorAll(".service_button-wrapper").forEach(btn => {
+    document.querySelectorAll(".js-service-button-wrapper-disabled").forEach(btn => {
       gsap.set(btn, { autoAlpha: btn.getAttribute("data-text") == "1" ? 1 : 0 });
     });
 
@@ -254,13 +254,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
       // First reveal - show all service elements
       if (!serviceRevealed) {
         serviceRevealed = true;
-        gsap.to(".service_border-text, .service_button", {
+        gsap.to(".service_border-text", {
           autoAlpha: 1, 
           duration: 0.5, 
           ease: "none", 
           overwrite: true
         });
-        gsap.to(".home_service-text", {
+        gsap.to(".js-service-text-disabled", {
           autoAlpha: 1,
           y: 0,
           filter: "blur(0px)",
@@ -371,9 +371,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
         gsap.set(img, { autoAlpha: 0, zIndex: 0, clipPath: "none" });
       });
 
-      gsap.set(".service_border-text, .service_button", { autoAlpha: 0, overwrite: true });
+      gsap.set(".service_border-text", { autoAlpha: 0, overwrite: true });
       serviceTexts.forEach(t => t.classList.remove("active"));
-      gsap.set(".home_service-text", { 
+      gsap.set(".js-service-text-disabled", { 
         autoAlpha: 0, 
         y: 30, 
         filter: "blur(8px)", 
@@ -381,7 +381,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         overwrite: true 
       });
 
-      document.querySelectorAll(".service_button-wrapper").forEach(btn => {
+      document.querySelectorAll(".js-service-button-wrapper-disabled").forEach(btn => {
         gsap.set(btn, { autoAlpha: btn.getAttribute("data-text") == "1" ? 1 : 0 });
       });
 
