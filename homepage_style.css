@@ -39,13 +39,13 @@ html{
  }
 
 
- .hl1.animate { animation-delay: 0s; }
- .hl2.animate { animation-delay: 0.1s; }
- .hl3.animate { animation-delay: 0.2s; }
- .hl4.animate { animation-delay: 0.3s; }
- .hl5.animate { animation-delay: 0.4s; }
- .hl6.animate { animation-delay: 0.5s; }
- .hl7.animate { animation-delay: 0.6s; }
+.hl1.animate { animation-delay: 0s; }
+.hl2.animate { animation-delay: 0.1s; }
+.hl3.animate { animation-delay: 0.2s; }
+.hl4.animate { animation-delay: 0.3s; }
+.hl5.animate { animation-delay: 0.4s; }
+.hl6.animate { animation-delay: 0.5s; }
+.hl7.animate { animation-delay: 0.6s; }
 
 
  @keyframes heroLetterUp {
@@ -69,8 +69,8 @@ html{
  }
 
 
- .hw1.animate { animation-delay: 0s; }
- .hw2.animate { animation-delay: 0.1s; }
+.hw1.animate { animation-delay: 0s; }
+.hw2.animate { animation-delay: 0.1s; }
 .hw3.animate { animation-delay: 0.2s; }
 .hw4.animate { animation-delay: 0.3s; }
 .hw5.animate { animation-delay: 0.4s; }
