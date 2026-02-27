@@ -194,7 +194,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Initial GSAP settings - with element existence checks
     const aboutSection = safeGSAPSet(".section_home-about", { position: "absolute" });
     const serviceSection = safeGSAPSet(".section_home-service", { position: "absolute" });
-    safeGSAPSet(".home_about-text, .service_border-text", { autoAlpha: 0 });
+    safeGSAPSet(".home_about-text, .service_border-text, .home_service-text, service_button", { autoAlpha: 0 });
     safeGSAPSet(".js-service-text-disabled", { autoAlpha: 0, y: 30, filter: "blur(8px)", scale: 0.85 });
     safeGSAPSet(".about_image-wrapper", { y: "100%" });
     safeGSAPSet(".about_design-wrapper", { x: "100%" });
@@ -254,13 +254,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
       // First reveal - show all service elements
       if (!serviceRevealed) {
         serviceRevealed = true;
-        gsap.to(".service_border-text", {
+        gsap.to(".home_service-text", {
           autoAlpha: 1, 
           duration: 0.5, 
           ease: "none", 
           overwrite: true
         });
-        gsap.to(".js-service-text-disabled", {
+        gsap.to(".service_button", {
           autoAlpha: 1,
           y: 0,
           filter: "blur(0px)",
