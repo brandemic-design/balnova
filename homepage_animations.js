@@ -194,8 +194,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Initial GSAP settings - with element existence checks
     const aboutSection = safeGSAPSet(".section_home-about", { position: "absolute" });
     const serviceSection = safeGSAPSet(".section_home-service", { position: "absolute" });
-    safeGSAPSet(".home_about-text, .service_border-text", { autoAlpha: 0 });
-    safeGSAPSet(".js-service-text-disabled", { autoAlpha: 0, y: 30, filter: "blur(8px)", scale: 0.85 });
+    safeGSAPSet(".home_about-text", { autoAlpha: 0 });
     safeGSAPSet(".about_image-wrapper", { y: "100%" });
     safeGSAPSet(".about_design-wrapper", { x: "100%" });
     
@@ -219,22 +218,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // SERVICE SECTION ANIMATIONS
     // ========================================================================
 
-    const serviceImages = document.querySelectorAll(".js-service-image-disabled");
-    const serviceTexts = document.querySelectorAll(".js-service-text-disabled");
-
-    gsap.set(serviceImages, { autoAlpha: 0, zIndex: 0 });
-
-    document.querySelectorAll(".js-service-button-wrapper-disabled").forEach(btn => {
-      gsap.set(btn, { autoAlpha: btn.getAttribute("data-text") == "1" ? 1 : 0 });
-    });
-
-    let currentIndex = -1;
-    let isAnimating = false;
-    let serviceRevealed = false;
-
-    const clipHidden = "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)";
-    const clipVisible = "polygon(0 100%, 100% 100%, 100% 0%, 0 0%)";
-
+    
     /**
      * Service Section Animations
      * Handles service image reveal and text interactions
@@ -637,13 +621,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             }
     
             // Handle service section
-            if (self.progress > 0.99 && !serviceRevealed) {
-              revealService(0);
-            }
-    
-            if (self.progress < 0.98 && serviceRevealed) {
-              resetServiceSection();
-            }
+            
     
             prevProgress = self.progress;
           }
