@@ -221,6 +221,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
     const serviceImages = document.querySelectorAll(".js-service-image-disabled");
     const serviceTexts = document.querySelectorAll(".js-service-text-disabled");
+    const homeServiceTexts = document.querySelectorAll(".home_sevice-text");
 
     gsap.set(serviceImages, { autoAlpha: 0, zIndex: 0 });
 
@@ -254,12 +255,32 @@ document.addEventListener("DOMContentLoaded", (event) => {
       // First reveal - show all service elements
       if (!serviceRevealed) {
         serviceRevealed = true;
-        gsap.to(".home_sevice-text", {
-          autoAlpha: 1, 
-          duration: 0.5, 
-          ease: "none", 
-          overwrite: true
-        });
+
+        // Reset position in case they were animated off to the right previously
+        gsap.set(".home_sevice-text, .service_button", { x: 0 });
+
+        // Only show up to 3 service text items at a time
+        if (homeServiceTexts && homeServiceTexts.length > 0) {
+          homeServiceTexts.forEach((el, i) => {
+            if (i < 3) {
+              gsap.to(el, {
+                autoAlpha: 1,
+                duration: 0.5,
+                ease: "none",
+                overwrite: true
+              });
+            } else {
+              gsap.set(el, { autoAlpha: 0 });
+            }
+          });
+        } else {
+          gsap.to(".home_sevice-text", {
+            autoAlpha: 1, 
+            duration: 0.5, 
+            ease: "none", 
+            overwrite: true
+          });
+        }
         gsap.to(".service_button", {
           autoAlpha: 1,
           y: 0,
@@ -372,8 +393,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
       });
 
       gsap.set(".service_border-text", { autoAlpha: 0, overwrite: true });
-      gsap.set(".home_sevice-text, .service_button", { 
+      // When leaving the service section (scrolling up), slide text/buttons to the right and hide
+      gsap.to(".home_sevice-text, .service_button", { 
         autoAlpha: 0,
+        x: 100,
+        duration: 0.5,
+        ease: "power3.in",
         overwrite: true
       });
       serviceTexts.forEach(t => t.classList.remove("active"));
