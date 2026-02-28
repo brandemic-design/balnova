@@ -240,7 +240,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
           start: "center center",
           end: "+=1500",
           scrub: true,
-          pin: true,
+          pin: false,
           anticipatePin: 1
         },
         defaults: { ease: "none" }
@@ -746,7 +746,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
             aboutLeftEl.style.clipPath = 
               `polygon(0 0, ${aboutLeftClip.x2}% 0, ${aboutLeftClip.x4}% 100%, 0 100%)`;
           }
-        },
+        }
+        
+      })
+      .to(".home_about-left", { "--grad-angle": "-10deg", ease: "none",
         onComplete: () => {
           // Initialize service process scroll after clipPath reaches 100%
           if (!serviceProcessScrollInitialized) {
@@ -754,8 +757,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
             serviceProcessScroll();
           }
         }
-      })
-      .to(".home_about-left", { "--grad-angle": "-10deg", ease: "none" }, "<");
+       }, "<");
     
       // Background position animations
       mainTimeline
