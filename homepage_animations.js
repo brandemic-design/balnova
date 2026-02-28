@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Initial GSAP settings - with element existence checks
     const aboutSection = safeGSAPSet(".section_home-about", { position: "absolute" });
     const serviceSection = safeGSAPSet(".section_home-service", { position: "absolute" });
-    safeGSAPSet(".home_about-text, .service_border-text,  .service_button", { autoAlpha: 0 });
+    safeGSAPSet(".home_about-text, .service_border-text, .home_sevice-text, .service_button, .js-service-text-disabled", { autoAlpha: 0 });
     safeGSAPSet(".js-service-text-disabled", { autoAlpha: 0, y: 30, filter: "blur(8px)", scale: 0.85 });
     safeGSAPSet(".about_image-wrapper", { y: "100%" });
     safeGSAPSet(".about_design-wrapper", { x: "100%" });
