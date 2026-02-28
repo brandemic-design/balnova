@@ -227,6 +227,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         // If isMobile doesn't exist, ignore and continue
       }
 
+      
       const processWrapper = document.querySelector(".service_text-container");
       if (!processWrapper) return;
 
@@ -528,7 +529,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         onComplete: () => {
           if (textAnimated) return;
           textAnimated = true;
-          gsap.fromTo(".home_about-content", { scale: 0.8 }, { scale: 1, duration: 4, ease: "none" });
+          gsap.fromTo(".home_about-content", { scale: 0.8 }, { scale: 1, duration: 2, ease: "none" });
           gsap.set(".home_about-content", { opacity: 1 });
           gsap.set(".home_about-text", { autoAlpha: 1 });
           if (split && split.words) {
