@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Initial GSAP settings - with element existence checks
     const aboutSection = safeGSAPSet(".section_home-about", { position: "absolute" });
     const serviceSection = safeGSAPSet(".section_home-service", { position: "absolute" });
-    safeGSAPSet(".home_about-text, .service_border-text, .js-service-text-disabled", { autoAlpha: 0 });
+    safeGSAPSet(".home_about-text, .service_border-text, .js-service-text-disabled, .service_text-container", { autoAlpha: 0 });
     safeGSAPSet(".js-service-text-disabled", { autoAlpha: 0, y: 30, filter: "blur(8px)", scale: 0.85 });
     safeGSAPSet(".about_image-wrapper", { y: "100%" });
     safeGSAPSet(".about_design-wrapper", { x: "100%" });
@@ -312,16 +312,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
             overwrite: true
           });
         }
-        // gsap.to(".service_button", {
-        //   autoAlpha: 1,
-        //   y: 0,
-        //   filter: "blur(0px)",
-        //   scale: 1,
-        //   duration: 0.7,
-        //   ease: "power3.out",
-        //   stagger: 0.25,
-        //   overwrite: true
-        // });
       }
 
       // Update active text
@@ -749,9 +739,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
           0)
         .fromTo(".section_home-about",
           { backgroundPositionY: "0px" },
-          { backgroundPositionY: "-50px", ease: "none" },
+          { backgroundPositionY: "-50px", ease: "none",
+            onComplete: () => {
+              gsap.to(".service_text-container", { autoAlpha: 1, stagger: 0.15, duration: 0.6, ease: "power2.out" });
+            }
+          },
           0)
-          .fromTo(".service_text-container", { x: 0, autoAlpha: 0 }, { x: maxX, autoAlpha: 1 , ease: "none" })
+          .fromTo(".service_text-container", { x: 0 }, { x: maxX, ease: "none" })
           .fromTo(".service_button", { autoAlpha: 0 }, { autoAlpha: 1, ease: "none" }, "<");
 
     // Initialize ripple effect
