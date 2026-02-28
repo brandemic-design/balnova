@@ -197,7 +197,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // Initial GSAP settings - with element existence checks
     const aboutSection = safeGSAPSet(".section_home-about", { position: "absolute" });
     const serviceSection = safeGSAPSet(".section_home-service", { position: "absolute" });
-    safeGSAPSet(".home_about-text, .service_border-text, .service_button, .js-service-text-disabled", { autoAlpha: 0 });
+    safeGSAPSet(".home_about-text, .service_border-text, .js-service-text-disabled", { autoAlpha: 0 });
     safeGSAPSet(".js-service-text-disabled", { autoAlpha: 0, y: 30, filter: "blur(8px)", scale: 0.85 });
     safeGSAPSet(".about_image-wrapper", { y: "100%" });
     safeGSAPSet(".about_design-wrapper", { x: "100%" });
@@ -425,13 +425,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 
       gsap.set(".service_border-text", { autoAlpha: 0, overwrite: true });
       // When leaving the service section (scrolling up), slide text/buttons to the right and hide
-      gsap.to(".home_sevice-text, .service_button", { 
-        autoAlpha: 0,
-        x: 100,
-        duration: 0.5,
-        ease: "power3.in",
-        overwrite: true
-      });
+    
       serviceTexts.forEach(t => t.classList.remove("active"));
       gsap.set(".js-service-text-disabled", { 
         autoAlpha: 0, 
@@ -757,7 +751,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
           { backgroundPositionY: "0px" },
           { backgroundPositionY: "-50px", ease: "none" },
           0)
-          .to(".service_text-container", { x: maxX, ease: "none" });
+          .fromTo(".service_text-container", { x: 0, autoAlpha: 0 }, { x: maxX, autoAlpha: 1 , ease: "none" })
+          .fromTo(".service_button", { autoAlpha: 0 }, { autoAlpha: 1, ease: "none" }, "<");
 
     // Initialize ripple effect
     initRippleEffect();
