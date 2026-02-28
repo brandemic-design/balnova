@@ -288,7 +288,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         serviceRevealed = true;
 
         // Reset position in case they were animated off to the right previously
-        gsap.set(".home_sevice-text, .service_button", { x: 0 });
+        // gsap.set(".home_sevice-text, .service_button", { x: 0 });
 
         // Only show up to 3 service text items at a time
         if (homeServiceTexts && homeServiceTexts.length > 0) {
@@ -312,16 +312,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
             overwrite: true
           });
         }
-        gsap.to(".service_button", {
-          autoAlpha: 1,
-          y: 0,
-          filter: "blur(0px)",
-          scale: 1,
-          duration: 0.7,
-          ease: "power3.out",
-          stagger: 0.25,
-          overwrite: true
-        });
+        // gsap.to(".service_button", {
+        //   autoAlpha: 1,
+        //   y: 0,
+        //   filter: "blur(0px)",
+        //   scale: 1,
+        //   duration: 0.7,
+        //   ease: "power3.out",
+        //   stagger: 0.25,
+        //   overwrite: true
+        // });
       }
 
       // Update active text
