@@ -190,7 +190,10 @@ document.addEventListener("DOMContentLoaded", (event) => {
       return;
     }
     console.log('Balnova Animations: .main-wrapper found ✓');
+    const processWrapper = document.querySelector(".service_text-container");
+    if (!processWrapper) return;
 
+    const maxX = -(processWrapper.offsetWidth - 1248);
     // Initial GSAP settings - with element existence checks
     const aboutSection = safeGSAPSet(".section_home-about", { position: "absolute" });
     const serviceSection = safeGSAPSet(".section_home-service", { position: "absolute" });
@@ -754,7 +757,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
           { backgroundPositionY: "0px" },
           { backgroundPositionY: "-50px", ease: "none" },
           0)
-          .to(".service_text-container", { x: serviceMaxX, ease: "none" });
+          .to(".service_text-container", { x: maxX, ease: "none" });
 
     // Initialize ripple effect
     initRippleEffect();
