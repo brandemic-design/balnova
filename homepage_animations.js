@@ -235,14 +235,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       if (!isFinite(maxX) || maxX >= 0) return;
 
       gsap.timeline({
-        scrollTrigger: {
-          trigger: ".section_home-service",
-          start: "center center",
-          end: "+=1500",
-          scrub: true,
-          pin: false,
-          anticipatePin: 1
-        },
+        
         defaults: { ease: "none" }
       }).fromTo(
         processWrapper,
@@ -749,15 +742,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
         
       })
-      .to(".home_about-left", { "--grad-angle": "-10deg", ease: "none",
-        onComplete: () => {
-          // Initialize service process scroll after clipPath reaches 100%
-          if (!serviceProcessScrollInitialized) {
-            serviceProcessScrollInitialized = true;
-            serviceProcessScroll();
-          }
-        }
-       }, "<");
+      .to(".home_about-left", { "--grad-angle": "-10deg", ease: "none",}, "<");
     
       // Background position animations
       mainTimeline
@@ -768,7 +753,8 @@ document.addEventListener("DOMContentLoaded", (event) => {
         .fromTo(".section_home-about",
           { backgroundPositionY: "0px" },
           { backgroundPositionY: "-50px", ease: "none" },
-          0);
+          0)
+          .to(".service_text-container", { x: serviceMaxX, ease: "none" });
 
     // Initialize ripple effect
     initRippleEffect();
