@@ -218,38 +218,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // ========================================================================
     // SERVICE SECTION ANIMATIONS
     // ========================================================================
-    
-    // Horizontal process scroll for service text on further scroll
-    function serviceProcessScroll() {
-      try {
-        if (typeof isMobile === "function" && isMobile()) return;
-      } catch (e) {
-        // If isMobile doesn't exist, ignore and continue
-      }
-
-      
-      const processWrapper = document.querySelector(".service_text-container");
-      if (!processWrapper) return;
-
-      const maxX = -(processWrapper.offsetWidth - 1248);
-      if (!isFinite(maxX) || maxX >= 0) return;
-
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: ".section_home-service",
-          start: "center center",
-          end: "+=1500",
-          scrub: true,
-          pin: false,
-          anticipatePin: 1
-        },
-        defaults: { ease: "none" }
-      }).fromTo(
-        processWrapper,
-        { x: 0 },
-        { x: maxX }
-      );
-    }
 
     const serviceImages = document.querySelectorAll(".js-service-image-disabled");
     const serviceTexts = document.querySelectorAll(".js-service-text-disabled");
@@ -264,9 +232,16 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let currentIndex = -1;
     let isAnimating = false;
     let serviceRevealed = false;
-    let serviceProcessScrollInitialized = false;
 
-    // serviceProcessScroll will be initialized after clipPath animation completes
+    // Calculate maxX for service text horizontal scroll
+    const processWrapper = document.querySelector(".service_text-container");
+    let serviceMaxX = 0;
+    if (processWrapper) {
+      serviceMaxX = -(processWrapper.offsetWidth - 1248);
+      if (!isFinite(serviceMaxX) || serviceMaxX >= 0) {
+        serviceMaxX = 0;
+      }
+    }
 
     const clipHidden = "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)";
     const clipVisible = "polygon(0 100%, 100% 100%, 100% 0%, 0 0%)";
@@ -749,15 +724,28 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }
         
       })
-      .to(".home_about-left", { "--grad-angle": "-10deg", ease: "none",
-        onComplete: () => {
-          // Initialize service process scroll after clipPath reaches 100%
-          if (!serviceProcessScrollInitialized) {
-            serviceProcessScrollInitialized = true;
-            serviceProcessScroll();
-          }
+      .to(".home_about-left", { "--grad-angle": "-10deg", ease: "none" }, "<");
+    
+    // Add horizontal scroll animation for service text container
+    // This moves the text horizontally as user continues scrolling through main timeline
+    if (processWrapper && serviceMaxX < 0) {
+      try {
+        if (typeof isMobile === "function" && isMobile()) {
+          // Skip on mobile
+        } else {
+          mainTimeline.to(processWrapper, {
+            x: serviceMaxX,
+            ease: "none"
+          }, ">");
         }
-       }, "<");
+      } catch (e) {
+        // If isMobile doesn't exist, continue with animation
+        mainTimeline.to(processWrapper, {
+          x: serviceMaxX,
+          ease: "none"
+        }, ">");
+      }
+    }
     
       // Background position animations
       mainTimeline
