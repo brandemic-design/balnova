@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // ========================================================================
     // SERVICE SECTION ANIMATIONS
     // ========================================================================
-
+    
     // Horizontal process scroll for service text on further scroll
     function serviceProcessScroll() {
       try {
@@ -264,9 +264,9 @@ document.addEventListener("DOMContentLoaded", (event) => {
     let currentIndex = -1;
     let isAnimating = false;
     let serviceRevealed = false;
+    let serviceProcessScrollInitialized = false;
 
-    // Initialize horizontal process scroll for service section
-    serviceProcessScroll();
+    // serviceProcessScroll will be initialized after clipPath animation completes
 
     const clipHidden = "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)";
     const clipVisible = "polygon(0 100%, 100% 100%, 100% 0%, 0 0%)";
@@ -745,6 +745,13 @@ document.addEventListener("DOMContentLoaded", (event) => {
           if (aboutLeftEl) {
             aboutLeftEl.style.clipPath = 
               `polygon(0 0, ${aboutLeftClip.x2}% 0, ${aboutLeftClip.x4}% 100%, 0 100%)`;
+          }
+        },
+        onComplete: () => {
+          // Initialize service process scroll after clipPath reaches 100%
+          if (!serviceProcessScrollInitialized) {
+            serviceProcessScrollInitialized = true;
+            serviceProcessScroll();
           }
         }
       })
