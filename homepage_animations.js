@@ -194,6 +194,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     if (!processWrapper) return;
 
     const maxX = -(processWrapper.offsetWidth - 1248);
+    gsap.set(".service_content-block", { opacity: 0 });
     // Initial GSAP settings - with element existence checks
     const aboutSection = safeGSAPSet(".section_home-about", { position: "absolute" });
     const serviceSection = safeGSAPSet(".section_home-service", { position: "absolute" });
@@ -222,30 +223,6 @@ document.addEventListener("DOMContentLoaded", (event) => {
     // SERVICE SECTION ANIMATIONS
     // ========================================================================
     
-    // Horizontal process scroll for service text on further scroll
-    function serviceProcessScroll() {
-      try {
-        if (typeof isMobile === "function" && isMobile()) return;
-      } catch (e) {
-        // If isMobile doesn't exist, ignore and continue
-      }
-
-      
-      const processWrapper = document.querySelector(".service_text-container");
-      if (!processWrapper) return;
-
-      const maxX = -(processWrapper.offsetWidth - 1248);
-      if (!isFinite(maxX) || maxX >= 0) return;
-
-      gsap.timeline({
-        
-        defaults: { ease: "none" }
-      }).fromTo(
-        processWrapper,
-        { x: 0 },
-        { x: maxX }
-      );
-    }
 
     const serviceImages = document.querySelectorAll(".js-service-image-disabled");
     const serviceTexts = document.querySelectorAll(".js-service-text-disabled");
@@ -570,12 +547,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
         }, "<");
     }
 
-    /**
-     * Gets the about left clip object for timeline updates
-     */
-    function getAboutLeftClip() {
-      return aboutLeftClip;
-    }
+  
 
     // ========================================================================
     // LOGO ANIMATIONS
@@ -739,13 +711,11 @@ document.addEventListener("DOMContentLoaded", (event) => {
           0)
         .fromTo(".section_home-about",
           { backgroundPositionY: "0px" },
-          { backgroundPositionY: "-50px", ease: "none",
-            onComplete: () => {
-              gsap.to(".service_text-container", { autoAlpha: 1, stagger: 0.15, duration: 0.6, ease: "power2.out" });
-            }
-          },
+          { backgroundPositionY: "-50px", ease: "none", onComplete: () => {
+            gsap.to(".service_content-block", { opacity: 1, duration: 0.5, ease: "none" });
+          } },
           0)
-          .fromTo(".service_text-container", { x: 0 }, { x: maxX, ease: "none" })
+          .to(".service_text-container", { x: maxX, ease: "none" }, "<")
           .fromTo(".service_button", { autoAlpha: 0 }, { autoAlpha: 1, ease: "none" }, "<");
 
     // Initialize ripple effect
